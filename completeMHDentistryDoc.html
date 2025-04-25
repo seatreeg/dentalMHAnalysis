@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>completeMHDentistryDoc</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="completeMHDentistryDoc_files/libs/clipboard/clipboard.min.js"></script>
+<script src="completeMHDentistryDoc_files/libs/quarto-html/quarto.js"></script>
+<script src="completeMHDentistryDoc_files/libs/quarto-html/popper.min.js"></script>
+<script src="completeMHDentistryDoc_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="completeMHDentistryDoc_files/libs/quarto-html/anchor.min.js"></script>
+<link href="completeMHDentistryDoc_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="completeMHDentistryDoc_files/libs/quarto-html/quarto-syntax-highlighting-01c78b5cd655e4cd89133cf59d535862.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="completeMHDentistryDoc_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="completeMHDentistryDoc_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="completeMHDentistryDoc_files/libs/bootstrap/bootstrap-933a14f46f0e4d1503cecf416b5e09b4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">completeMHDentistryDoc</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p>First, we import necessary libraries and declare some settings which we will reuse later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># for moving data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># for graphics/plots</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic) <span class="co"># for doing randomization tests</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'mosaic':
+  method                           from   
+  fortify.SpatialPolygonsDataFrame ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+The 'mosaic' package masks several functions from core packages in order to add 
+additional features.  The original behavior of these functions should not be affected by this.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mosaic'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:Matrix':
+
+    mean</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    stat</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    count, do, tally</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    binom.test, cor, cor.test, cov, fivenum, IQR, median, prop.test,
+    quantile, sd, t.test, var</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    max, mean, min, prod, range, sample, sum</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reSeed <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># seed for reproducability, </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># essentially makes every "random" process determiniistic</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># this allows other scientists to rexamine our work</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># in the same way we did</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># with the same outcomes</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the number itself is arbitrary</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>repCtMos <span class="ot">&lt;-</span> <span class="dv">100000</span><span class="co">#100#000 # number of times we sim, 10 000 recommended, more is better, we do 100k</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># set our directory, to our directory</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">trogi</span><span class="sc">\\</span><span class="st">Downloads</span><span class="sc">\\</span><span class="st">consultDentistry"</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C:/Users/trogi/Downloads/consultDentistry"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "2024Responses.csv"                   "2025Responses.csv"                  
+ [3] "burnPlot.png"                        "combinedFileForAnalysis.csv"        
+ [5] "comboWithSums.csv"                   "comboWithSums2Sas.csv"              
+ [7] "comboWithSums2SasEditCols.csv"       "completeMHDentistryDoc.html"        
+ [9] "completeMHDentistryDoc.qmd"          "completeMHDentistryDoc.rmarkdown"   
+[11] "completeMHDentistryDoc_files"        "consultingEvolutionMentalHealth.qmd"
+[13] "DentistComboForSas.csv"              "gadPlot.png"                        
+[15] "phqPlot.png"                        </code></pre>
+</div>
+</div>
+<p>Next we will import the original files</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df2024orig <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"2024Responses.csv"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df2025orig <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"2025Responses.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The new file uses sentences as data, but the old one uses numeric values to represent respondent’s answers. To make sure both files agree with eachother, we will map all of the sentences to numeric values. These numeric values come from the point system that the original questionaires use.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is our method of mapping sentences to numbers</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mapScheme <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Not at all"</span> <span class="ot">=</span> <span class="dv">0</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Several days"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">"More than half the days"</span> <span class="ot">=</span> <span class="dv">2</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Nearly every day"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">"I enjoy my school, I have no symptoms of burnout."</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"I am under stress, and don't always have as much energy as I did, but I don't feel burned out."</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I am definitely burning out and have one or more symptoms of burnout e.g. emotional exhaustion."</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"The symptoms of burnout that I'm experiencing won't go away. I think about school frustrations a lot."</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I feel completely burned out. I am the point where I may need to seek help."</span> <span class="ot">=</span> <span class="dv">4</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># now we use the scheme to map sentences to words</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>df2025mapped<span class="ot">&lt;-</span> df2025orig <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">19</span>), <span class="sc">~</span> mapScheme[.] ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The questionairre is all one thing in both samples, but its made of 3 smaller questionaires (PHQ9 [8 questions], BURN [1 question],GAD7 [7 questions]. The method of the original questionaires was to simply add up the scores, where each question is worth one point. Its important to know that all of the questions have a negative “valance”, meaning that more points = less mentally healthy. First we will label each column and combine them into one.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>namesph19b82025 <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df2025orig[<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>namesburn2025 <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df2025orig[<span class="dv">12</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>namesgad92025 <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df2025orig[<span class="dv">13</span><span class="sc">:</span><span class="dv">19</span>])</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>namesph19b82024 <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df2024orig[<span class="dv">5</span><span class="sc">:</span><span class="dv">12</span>])</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>namesburn2024 <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df2024orig[<span class="dv">13</span>])</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>namesgad92024 <span class="ot">&lt;-</span><span class="fu">colnames</span>(df2024orig[<span class="dv">14</span><span class="sc">:</span><span class="dv">20</span>])</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>relCol2025 <span class="ot">&lt;-</span> df2025mapped[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">19</span>)]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>relCol2024 <span class="ot">&lt;-</span> df2024orig[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">20</span>)]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>relCol2025<span class="sc">$</span>yearTaken <span class="ot">&lt;-</span> <span class="dv">2025</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>relCol2024<span class="sc">$</span>yearTaken <span class="ot">&lt;-</span> <span class="dv">2024</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(relCol2024) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(relCol2025)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>combined2024and2025 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(relCol2024,relCol2025)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we will sum the scores, just as a doctor would. (note, the burnout one is a sum, but the sum of one score)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sumComboDF <span class="ot">&lt;-</span> combined2024and2025</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#colnames(sumComboDF[13:19])</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sumComboDF[12]</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#rowSums(sumComboDF[4:11])</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>sumComboDF<span class="sc">$</span>phqScore <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(sumComboDF[<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>sumComboDF<span class="sc">$</span>burnScore <span class="ot">&lt;-</span> sumComboDF[[<span class="dv">12</span>]]</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>sumComboDF<span class="sc">$</span>gadScore <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(sumComboDF[<span class="dv">13</span><span class="sc">:</span><span class="dv">19</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now rename the colums to work better, since the original names are full sentences</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#c("ID", "Timestamp",   "DENTALYR", "GENDER", "DEP1", "DEP2", "DEP3", "DEP4", "DEP5", "DEP6", "DEP7", "DEP8", "BURN1", "ANX1", "ANX2", "ANX3", "ANX4", "ANX5", "ANX6", "ANX7", "yearTaken", "phqScore", "burnScore", "gadScore")</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we should also add the id column for the entire df</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sumComboDF <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">rowid_to_column</span>(sumComboDF, <span class="st">"ID"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sumComboDF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ID"                                                                                                                                                                                                              
+ [2] "Timestamp"                                                                                                                                                                                                       
+ [3] "What.year.in.dental.school.are.you."                                                                                                                                                                             
+ [4] "What.is.your.gender."                                                                                                                                                                                            
+ [5] "Over.the.last.two.weeks..how.often.have.you.lost.interest.or.pleasure.in.doing.things."                                                                                                                          
+ [6] "Over.the.last.2.weeks..how.often.have.you.felt.sad..low..down..depressed.or.hopeless."                                                                                                                           
+ [7] "Over.the.last.2.weeks..how.often.have.you.had.trouble.falling.or.staying.asleep..or.sleeping.too.much."                                                                                                          
+ [8] "Over.the.last.2.weeks..how.often.have.you.felt.tired.or.had.little.energy."                                                                                                                                      
+ [9] "Over.the.last.2.weeks..how.often.have.you.had.a.poor.appetite.or.overeaten."                                                                                                                                     
+[10] "Over.the.last.2.weeks..how.often.have.you.felt.bad.about.yourself..or.that.you.are.a.failure.or.have.let.yourself.or.your.family.down."                                                                          
+[11] "Over.the.last.2.weeks..how.often.have.you.had.trouble.concentrating.on.things..such.as.reading.the.newspaper.or.watching.television."                                                                            
+[12] "Over.the.last.2.weeks..how.often.have.you.moved.or.spoken.so.slowly.that.other.people.could.have.noticed..Or.the.opposite...being.so.fidgety.or.restless.that.you.have.been.moving.around.a.lot.more.than.usual."
+[13] "Using.your.definition.of..burnout...please.select.one.of.the.answers.below."                                                                                                                                     
+[14] "In.the.last.2.weeks..how.often.are.you.feeling.nervous..anxious..or.on.edge."                                                                                                                                    
+[15] "In.the.last.2.weeks..how.often.have.you.not.been.able.to.stop.or.control.worrying."                                                                                                                              
+[16] "In.the.last.2.weeks..how.often.have.you.been.worrying.too.much.about.different.things."                                                                                                                          
+[17] "In.the.last.2.weeks..how.often.have.you.had.trouble.relaxing."                                                                                                                                                   
+[18] "In.the.last.2.weeks..how.often.have.you.been.so.restless.that.is.is.hard.to.sit.still."                                                                                                                          
+[19] "In.the.last.2.weeks..how.often.have.you.become.easily.annoyed.or.irritable."                                                                                                                                     
+[20] "In.the.last.2.weeks..how.often.have.you.felt.afraid.as.if.something.awful.might.happen."                                                                                                                         
+[21] "yearTaken"                                                                                                                                                                                                       
+[22] "phqScore"                                                                                                                                                                                                        
+[23] "burnScore"                                                                                                                                                                                                       
+[24] "gadScore"                                                                                                                                                                                                        </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sumComboDF) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"Timestamp"</span>,   <span class="st">"DENTALYR"</span>, <span class="st">"GENDER"</span>, <span class="st">"DEP1"</span>, <span class="st">"DEP2"</span>, <span class="st">"DEP3"</span>, <span class="st">"DEP4"</span>, <span class="st">"DEP5"</span>, <span class="st">"DEP6"</span>, <span class="st">"DEP7"</span>, <span class="st">"DEP8"</span>, <span class="st">"BURN1"</span>, <span class="st">"ANX1"</span>, <span class="st">"ANX2"</span>, <span class="st">"ANX3"</span>, <span class="st">"ANX4"</span>, <span class="st">"ANX5"</span>, <span class="st">"ANX6"</span>, <span class="st">"ANX7"</span>, <span class="st">"yearTaken"</span>, <span class="st">"phqScore"</span>, <span class="st">"burnScore"</span>, <span class="st">"gadScore"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"Timestamp"</span>, <span class="st">"DENTALYR"</span>, <span class="st">"GENDER"</span>, <span class="st">"DEP1"</span>, <span class="st">"DEP2"</span>, <span class="st">"DEP3"</span>, <span class="st">"DEP4"</span>, <span class="st">"DEP5"</span>, <span class="st">"DEP6"</span>, <span class="st">"DEP7"</span>, <span class="st">"DEP8"</span>, <span class="st">"BURN1"</span>, <span class="st">"ANX1"</span>, <span class="st">"ANX2"</span>, <span class="st">"ANX3"</span>, <span class="st">"ANX4"</span>, <span class="st">"ANX5"</span>, <span class="st">"ANX6"</span>, <span class="st">"ANX7"</span>, <span class="st">"yearTaken"</span>, <span class="st">"phqScore"</span>, <span class="st">"burnScore"</span>, <span class="st">"gadScore"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">names</span>(sumComboDF))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sumComboDF</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ID           Timestamp DENTALYR            GENDER DEP1 DEP2 DEP3 DEP4 DEP5
+1     1   1/7/2024 12:08:50       D4              Male    1    1    0    0    0
+2     2   1/8/2024 14:33:15       D2              Male    0    0    0    0    0
+3     3   1/8/2024 14:33:59       D3            Female    0    0    1    1    0
+4     4   1/8/2024 14:34:58       D2            Female    1    1    2    1    1
+5     5   1/8/2024 14:35:20       D3            Female    1    0    0    3    0
+6     6   1/8/2024 14:36:09       D2            Female    0    0    1    0    0
+7     7   1/8/2024 14:36:22       D1            Female    0    1    1    0    1
+8     8   1/8/2024 14:37:39       D2              Male    0    0    0    0    0
+9     9   1/8/2024 14:37:55       D3              Male    0    0    0    3    1
+10   10   1/8/2024 14:39:06       D1              Male    0    0    2    1    0
+11   11   1/8/2024 14:41:11       D3            Female    0    0    1    1    0
+12   12   1/8/2024 14:41:48       D3            Female    0    1    2    2    1
+13   13   1/8/2024 14:42:31       D2            Female    1    0    2    2    1
+14   14   1/8/2024 14:44:25       D2              Male    1    0    1    1    0
+15   15   1/8/2024 14:44:26       D3            Female    0    0    0    1    1
+16   16   1/8/2024 14:48:52       D3            Female    1    1    2    2    1
+17   17   1/8/2024 14:49:07       D3            Female    0    0    0    0    0
+18   18   1/8/2024 14:49:07       D2            Female    2    2    2    2    2
+19   19   1/8/2024 14:49:39       D3            Female    0    0    0    0    0
+20   20   1/8/2024 15:01:30       D3            Female    1    0    0    1    0
+21   21   1/8/2024 15:01:38       D2              Male    0    0    0    0    0
+22   22   1/8/2024 15:01:55       D4            Female    0    0    0    2    0
+23   23   1/8/2024 15:17:16       D4            Female    0    0    1    1    1
+24   24   1/8/2024 15:17:22       D2            Female    1    1    1    1    0
+25   25   1/8/2024 15:17:50       D2            Female    0    1    1    0    0
+26   26   1/8/2024 15:19:30       D1            Female    0    1    3    3    0
+27   27   1/8/2024 16:10:17       D1            Female    2    2    3    3    3
+28   28   1/8/2024 17:19:14       D4            Female    0    1    1    1    1
+29   29   1/8/2024 18:29:44       D2              Male    0    0    0    1    0
+30   30   1/8/2024 18:33:28       D3            Female    0    0    1    1    0
+31   31   1/8/2024 18:42:42       D2            Female    0    1    1    1    3
+32   32   1/8/2024 18:59:16       D2            Female    1    1    3    2    1
+33   33   1/8/2024 19:01:17       D3            Female    0    0    1    1    1
+34   34   1/8/2024 19:28:09       D3            Female    0    0    1    1    1
+35   35   1/8/2024 19:39:09       D1              Male    0    0    1    1    0
+36   36   1/8/2024 20:11:45       D4            Female    0    0    1    2    1
+37   37   1/8/2024 22:27:04       D3            Female    1    1    1    1    1
+38   38    1/9/2024 7:52:28       D1            Female    0    1    1    2    0
+39   39    1/9/2024 9:47:04       D3            Female    0    0    1    1    1
+40   40   1/9/2024 10:32:34       D4              Male    2    2    1    2    2
+41   41   1/9/2024 13:42:03       D2            Female    1    1    2    2    2
+42   42   1/9/2024 16:15:00       D1            Female    0    0    2    0    0
+43   43   1/9/2024 17:23:53       D2            Female    0    0    1    1    1
+44   44  1/10/2024 14:07:51       D3            Female    0    0    1    0    0
+45   45  1/10/2024 14:09:05       D3            Female    0    0    0    0    0
+46   46  1/10/2024 14:32:55       D4              Male    0    0    0    1    0
+47   47  1/10/2024 14:55:24       D4            Female    1    1    3    1    2
+48   48  1/10/2024 15:02:03       D1              Male    0    0    1    0    0
+49   49  1/10/2024 15:02:15       D1              Male    0    0    0    2    2
+50   50  1/10/2024 15:02:32       D1              Male    0    0    2    2    2
+51   51  1/10/2024 15:02:58       D1              Male    0    0    1    1    0
+52   52  1/10/2024 15:03:16       D1            Female    1    1    0    1    2
+53   53  1/10/2024 15:04:08       D1              Male    0    0    1    2    0
+54   54  1/10/2024 15:05:25       D1            Female    0    0    1    1    1
+55   55  1/10/2024 15:14:48       D1            Female    1    0    1    1    1
+56   56  1/10/2024 16:55:38       D1            Female    1    0    1    1    0
+57   57  1/10/2024 22:30:30       D1            Female    1    1    0    2    1
+58   58   1/11/2024 8:15:13       D2            Female    0    0    0    1    0
+59   59   1/11/2024 8:16:48       D1              Male    1    0    1    1    1
+60   60   1/11/2024 8:45:43       D2            Female    1    1    0    1    0
+61   61   1/11/2024 9:25:38       D2            Female    1    1    1    2    0
+62   62   1/12/2024 9:50:33       D4            Female    0    0    1    1    1
+63   63   1/12/2024 9:51:09       D2            Female    0    0    1    1    0
+64   64   1/12/2024 9:57:34       D2            Female    0    0    1    1    1
+65   65   1/12/2024 9:59:16       D2            Female    0    0    0    1    1
+66   66  1/12/2024 10:01:51       D1            Female    1    1    1    0    0
+67   67  1/12/2024 10:03:29       D2            Female    1    0    0    0    1
+68   68  1/12/2024 10:07:40       D2            Female    0    1    1    1    0
+69   69  1/12/2024 10:21:28       D4              Male    0    0    0    0    0
+70   70  1/12/2024 10:35:19       D3            Female    0    1    1    1    0
+71   71  1/12/2024 10:40:23       D3              Male    0    0    0    0    0
+72   72  1/12/2024 10:53:34       D1            Female    0    0    1    1    1
+73   73  1/12/2024 10:54:43       D1            Female    1    1    1    1    0
+74   74  1/12/2024 11:12:41       D3            Female    0    0    1    1    1
+75   75  1/12/2024 11:35:04       D2              Male    0    0    0    1    0
+76   76  1/12/2024 12:20:50       D4            Female    0    0    0    3    0
+77   77  1/12/2024 12:33:39       D1            Female    1    0    0    0    1
+78   78  1/12/2024 12:49:23       D3            Female    1    1    0    1    0
+79   79  1/12/2024 14:25:30       D1              Male    1    0    2    1    1
+80   80  1/12/2024 15:28:49       D2            Female    0    0    1    1    1
+81   81  1/12/2024 16:00:26       D2            Female    0    0    1    0    0
+82   82  1/12/2024 18:36:47       D1            Female    1    1    1    1    0
+83   83  1/12/2024 20:21:47       D1            Female    1    0    1    1    0
+84   84  1/12/2024 22:58:26       D3            Female    1    1    1    2    1
+85   85  1/13/2024 13:33:43       D4            Female    1    2    3    2    1
+86   86  1/13/2024 20:04:05       D2              Male    1    1    0    1    1
+87   87  1/14/2024 11:57:42       D2            Female    1    2    0    0    2
+88   88  1/14/2024 22:12:31       D2            Female    0    0    1    0    1
+89   89  12/9/2024 11:47:52       D3            Female    0    1    1    2    1
+90   90  12/9/2024 11:58:13       D3            Female    2    2    3    3    1
+91   91  12/9/2024 14:52:43       D1            Female    2    2    2    3    2
+92   92  12/9/2024 14:52:45       D1            Female    1    2    2    3    1
+93   93  12/9/2024 14:52:50       D1            Female    3    3    3    3    3
+94   94  12/9/2024 14:53:30       D1            Female    0    0    1    1    1
+95   95  12/9/2024 14:53:59       D1              Male    3    3    1    3    2
+96   96  12/9/2024 14:54:09       D1            Female    1    0    1    2    0
+97   97  12/9/2024 14:54:15       D1              Male    1    1    2    2    0
+98   98  12/9/2024 14:54:20       D1              Male    2    1    2    3    2
+99   99  12/9/2024 14:54:54       D1            Female    1    0    0    1    1
+100 100  12/9/2024 14:55:14       D1              Male    1    1    2    3    1
+101 101  12/9/2024 14:55:24       D1            Female    1    0    3    3    1
+102 102  12/9/2024 14:55:25       D1              Male    1    0    2    2    1
+103 103  12/9/2024 14:55:41       D1            Female    1    2    2    3    3
+104 104  12/9/2024 14:55:53       D1            Female    2    3    2    3    3
+105 105  12/9/2024 14:55:58       D1            Female    1    1    1    1    0
+106 106  12/9/2024 14:56:05       D1            Female    1    0    1    1    0
+107 107  12/9/2024 14:56:06       D1            Female    2    3    3    3    3
+108 108  12/9/2024 14:56:12       D1            Female    1    2    2    3    2
+109 109  12/9/2024 14:56:26       D1            Female    1    0    1    2    2
+110 110  12/9/2024 14:56:38       D1              Male    1    1    1    2    2
+111 111  12/9/2024 14:56:39       D1              Male    2    1    1    2    1
+112 112  12/9/2024 14:56:50       D1            Female    2    2    1    3    3
+113 113  12/9/2024 14:56:51       D1            Female    1    0    0    2    1
+114 114  12/9/2024 14:56:56       D1              Male    2    0    1    1    1
+115 115  12/9/2024 14:56:56       D1            Female    2    2    2    1    3
+116 116  12/9/2024 14:56:59       D1            Female    3    1    3    3    1
+117 117  12/9/2024 14:57:28       D1            Female    1    1    0    2    1
+118 118  12/9/2024 14:57:29       D1              Male    1    1    1    1    1
+119 119  12/9/2024 14:57:43       D1              Male    0    0    0    0    0
+120 120  12/9/2024 14:58:21       D1            Female    1    1    0    3    0
+121 121  12/9/2024 14:58:48       D1            Female    1    1    2    3    0
+122 122  12/9/2024 14:59:08       D1              Male    0    1    0    1    0
+123 123  12/9/2024 14:59:16       D1            Female    2    2    0    3    2
+124 124  12/9/2024 17:03:41       D1              Male    1    0    2    0    0
+125 125  12/9/2024 17:25:00       D3            Female    0    0    1    1    1
+126 126 12/10/2024 10:24:20       D3            Female    0    1    1    1    1
+127 127 12/10/2024 10:24:43       D4            Female    0    0    1    1    1
+128 128 12/10/2024 10:25:19       D3            Female    2    1    0    3    1
+129 129 12/10/2024 10:27:10       D4            Female    1    1    1    2    1
+130 130 12/10/2024 10:29:14       D3            Female    1    1    3    2    0
+131 131 12/10/2024 10:29:33       D3              Male    0    0    0    0    0
+132 132 12/10/2024 10:31:26       D4            Female    1    0    1    1    1
+133 133 12/10/2024 10:31:56       D3            Female    0    0    0    1    1
+134 134 12/10/2024 10:34:42       D4            Female    0    0    0    2    1
+135 135 12/10/2024 10:37:40       D4              Male    0    0    1    2    0
+136 136 12/10/2024 10:42:09       D4              Male    1    2    3    3    1
+137 137 12/10/2024 10:42:36       D3              Male    2    1    1    3    1
+138 138 12/10/2024 10:54:56       D4              Male    1    1    1    1    1
+139 139 12/10/2024 11:08:13       D3              Male    0    0    1    1    0
+140 140 12/10/2024 11:49:31       D4            Female    1    1    1    2    1
+141 141 12/10/2024 11:51:25       D3              Male    1    1    2    2    2
+142 142 12/10/2024 11:52:10       D4            Female    0    0    2    1    1
+143 143 12/10/2024 11:54:13       D4            Female    0    0    2    1    1
+144 144 12/10/2024 11:56:29       D3              Male    1    1    0    1    0
+145 145 12/10/2024 11:58:03       D3            Female    2    2    2    2    1
+146 146 12/10/2024 12:00:33       D3              Male    0    1    0    2    1
+147 147 12/10/2024 12:05:24       D3            Female    2    2    2    2    0
+148 148 12/10/2024 12:12:58       D3            Female    0    0    1    1    1
+149 149 12/10/2024 13:01:44       D3              Male    1    1    0    2    1
+150 150 12/10/2024 13:33:17       D4              Male    1    0    0    1    1
+151 151 12/10/2024 15:32:25       D4            Female    1    1    3    3    1
+152 152 12/10/2024 15:50:23       D4            Female    0    1    1    1    1
+153 153 12/10/2024 16:27:20       D3            Female    0    0    0    0    0
+154 154 12/10/2024 18:59:59       D3              Male    1    1    2    2    0
+155 155 12/10/2024 19:14:59       D4              Male    0    1    0    1    1
+156 156 12/10/2024 20:05:05       D3              Male    1    1    1    1    1
+157 157 12/10/2024 20:18:25       D4            Female    0    0    0    1    0
+158 158  12/11/2024 8:11:39       D4              Male    0    0    1    1    0
+159 159  12/11/2024 9:03:29       D3              Male    1    0    3    3    3
+160 160 12/11/2024 10:18:32       D4              Male    1    0    2    2    2
+161 161 12/11/2024 10:19:24       D4              Male    3    1    0    1    1
+162 162 12/11/2024 10:19:39       D3            Female    1    1    1    1    1
+163 163 12/11/2024 10:23:52       D3            Female    1    1    2    3    1
+164 164 12/11/2024 10:31:04       D4            Female    0    0    0    2    1
+165 165 12/11/2024 10:40:46       D4 Prefer not to say    0    0    0    1    0
+166 166 12/11/2024 10:40:56       D3              Male    0    0    0    1    1
+167 167 12/11/2024 11:07:07       D4              Male    0    0    0    0    0
+168 168 12/11/2024 12:15:40       D4              Male    2    2    0    2    1
+169 169 12/11/2024 12:22:30       D4              Male    0    0    0    1    0
+170 170 12/11/2024 12:25:24       D4              Male    1    1    0    1    1
+171 171 12/11/2024 12:27:17       D3              Male    1    0    1    3    1
+172 172 12/11/2024 12:27:40       D4              Male    1    1    1    1    1
+173 173 12/11/2024 12:27:59       D3              Male    0    0    0    1    0
+174 174 12/11/2024 13:08:51       D1            Female    2    2    1    2    1
+175 175 12/11/2024 15:00:52       D3            Female    1    1    0    3    2
+176 176  12/12/2024 8:04:48       D2            Female    0    1    1    3    1
+177 177  12/12/2024 8:05:58       D2            Female    1    1    1    1    1
+178 178  12/12/2024 8:06:37       D2            Female    1    1    1    2    2
+179 179  12/12/2024 8:07:15       D2            Female    1    2    2    3    2
+180 180  12/12/2024 8:07:19       D2            Female    0    1    1    1    1
+181 181  12/12/2024 8:08:05       D2            Female    3    3    3    3    3
+182 182  12/12/2024 8:09:04       D2              Male    1    1    2    2    1
+183 183  12/12/2024 8:09:21       D2            Female    3    1    3    2    3
+184 184  12/12/2024 8:09:52       D2              Male    1    1    0    1    2
+185 185  12/12/2024 8:13:51       D2            Female    0    1    3    1    1
+186 186  12/12/2024 8:15:50       D2              Male    1    2    3    3    0
+187 187  12/12/2024 8:16:59       D2            Female    1    1    1    2    1
+188 188  12/12/2024 8:17:32       D2            Female    1    1    0    1    0
+189 189  12/12/2024 8:19:34       D2            Female    1    1    2    2    1
+190 190  12/12/2024 8:35:13       D2            Female    1    1    1    1    1
+191 191 12/12/2024 11:21:44       D2            Female    1    1    2    3    1
+192 192 12/12/2024 11:52:32       D2            Female    2    2    3    3    2
+193 193 12/12/2024 12:12:43       D3            Female    2    1    0    1    1
+194 194 12/12/2024 13:17:50       D2            Female    1    1    2    2    1
+195 195 12/12/2024 13:49:30       D2              Male    0    1    1    1    0
+196 196 12/12/2024 14:32:07       D2              Male    3    3    0    2    0
+197 197 12/12/2024 15:54:44       D2              Male    2    1    1    1    1
+198 198 12/12/2024 18:21:20       D2            Female    1    1    1    2    2
+199 199 12/14/2024 14:33:31       D4              Male    0    0    0    0    0
+200 200 12/15/2024 14:51:57       D3              Male    0    1    0    2    0
+201 201 12/15/2024 19:39:08       D3            Female    2    2    2    2    1
+202 202 12/17/2024 14:11:39       D2            Female    0    0    2    2    1
+203 203 12/17/2024 16:19:50       D3            Female    0    0    3    1    2
+204 204 12/19/2024 21:55:38       D3            Female    0    0    1    1    0
+    DEP6 DEP7 DEP8 BURN1 ANX1 ANX2 ANX3 ANX4 ANX5 ANX6 ANX7 yearTaken phqScore
+1      0    0    0     2    3    1    1    1    3    1    1      2024        2
+2      0    0    0     2    1    0    0    0    0    0    0      2024        0
+3      0    0    0     1    0    0    0    0    0    0    0      2024        2
+4      0    0    0     2    1    2    1    3    2    1    0      2024        6
+5      1    0    0     3    3    2    3    3    2    3    1      2024        5
+6      0    1    0     2    0    0    0    0    0    1    0      2024        2
+7      0    0    0     1    0    0    1    1    0    0    0      2024        3
+8      0    0    0     1    1    0    1    0    0    0    0      2024        0
+9      0    2    0     2    2    0    1    3    0    0    0      2024        6
+10     0    0    0     1    1    0    1    0    0    1    0      2024        3
+11     0    0    0     1    1    0    0    0    0    0    0      2024        2
+12     0    0    0     1    0    0    0    0    0    1    0      2024        6
+13     1    1    0     2    2    2    2    2    1    1    1      2024        8
+14     0    0    0     2    0    0    0    1    1    1    0      2024        3
+15     0    1    0     2    1    0    1    0    0    1    1      2024        3
+16     1    1    0     2    1    1    2    1    1    2    1      2024        9
+17     0    0    0     1    0    0    0    0    0    0    0      2024        0
+18     3    3    3     2    1    1    1    1    1    1    0      2024       19
+19     0    0    0     1    0    0    0    0    0    0    0      2024        0
+20     0    1    0     1    1    0    1    0    0    1    0      2024        3
+21     0    0    0     1    0    0    0    0    0    0    0      2024        0
+22     1    0    0     1    1    0    0    0    0    0    0      2024        3
+23     0    0    0     2    1    1    1    1    1    1    0      2024        3
+24     1    1    0     2    1    1    1    1    0    1    1      2024        6
+25     0    0    0     0    1    1    0    1    0    0    1      2024        2
+26     1    1    0     1    1    0    0    0    0    1    0      2024        9
+27     1    3    2     2    3    2    2    1    0    2    1      2024       19
+28     0    0    1     1    1    1    1    1    0    1    0      2024        5
+29     0    0    0     2    0    0    0    0    0    0    0      2024        1
+30     0    0    0     1    0    0    1    0    0    0    1      2024        2
+31     1    0    0     3    1    1    1    1    1    2    0      2024        7
+32     1    0    0     2    1    1    1    1    0    1    1      2024        9
+33     0    0    0     2    0    0    1    0    0    0    0      2024        3
+34     0    0    0     2    0    0    1    0    0    0    0      2024        3
+35     0    0    0     1    1    0    0    0    0    0    0      2024        2
+36     0    0    1     2    1    1    1    1    0    1    0      2024        5
+37     1    1    0     2    1    1    1    1    0    0    1      2024        7
+38     1    0    0     2    1    1    1    1    1    2    0      2024        5
+39     0    0    0     1    1    1    1    0    0    1    0      2024        3
+40     2    1    0     3    3    2    3    3    1    2    1      2024       12
+41     1    1    0     2    1    1    1    1    1    1    2      2024       10
+42     0    0    0     0    1    0    0    1    1    0    0      2024        2
+43     0    0    0     1    1    0    0    0    1    0    1      2024        3
+44     0    0    0     1    0    0    0    0    0    0    0      2024        1
+45     1    0    0     1    1    1    1    1    1    1    0      2024        1
+46     1    1    0     1    1    1    1    1    0    2    0      2024        3
+47     1    0    0     1    1    1    1    0    0    2    0      2024        9
+48     0    0    0     1    0    0    0    0    0    0    0      2024        1
+49     0    3    2     1    3    2    2    1    1    1    1      2024        9
+50     0    1    0     2    0    0    0    0    0    0    0      2024        7
+51     0    0    0     1    1    1    1    0    0    0    0      2024        2
+52     0    0    0     2    0    0    0    0    0    3    0      2024        5
+53     0    0    0     1    0    0    0    0    1    0    0      2024        3
+54     1    1    0     1    1    1    1    1    1    0    2      2024        5
+55     0    2    2     1    1    0    0    0    2    1    0      2024        8
+56     0    3    0     2    1    0    1    1    1    1    0      2024        6
+57     0    1    0     2    2    2    1    1    0    1    0      2024        6
+58     0    0    0     1    0    0    0    0    0    0    0      2024        1
+59     0    1    0     1    1    1    1    1    0    1    0      2024        5
+60     0    0    0     1    0    1    1    1    0    1    0      2024        3
+61     0    1    0     2    2    1    1    1    0    1    0      2024        6
+62     0    0    0     1    1    0    0    1    1    1    0      2024        3
+63     0    0    0     1    0    0    0    1    0    1    0      2024        2
+64     1    1    0     1    1    1    1    1    1    1    1      2024        5
+65     1    1    0     3    1    1    1    1    1    2    1      2024        4
+66     1    1    1     1    1    1    1    0    2    0    0      2024        6
+67     1    0    0     1    1    1    1    1    1    1    0      2024        3
+68     0    0    1     0    0    1    1    0    0    0    0      2024        4
+69     0    0    0     1    0    0    0    0    0    0    0      2024        0
+70     0    1    0     3    1    0    1    1    0    1    0      2024        4
+71     0    0    0     0    0    0    0    0    0    0    0      2024        0
+72     1    0    0     1    0    0    0    0    0    0    0      2024        4
+73     1    0    0     1    3    2    2    3    2    0    3      2024        5
+74     0    1    0     2    0    0    1    0    0    1    0      2024        4
+75     1    0    1     1    1    0    0    0    0    1    0      2024        3
+76     0    0    0     1    3    1    1    1    0    1    2      2024        3
+77     1    1    2     1    2    2    2    2    2    1    1      2024        6
+78     0    0    0     0    3    1    2    1    0    1    1      2024        3
+79     0    0    0     2    1    0    0    0    1    0    0      2024        5
+80     0    0    0     2    1    0    1    0    0    0    0      2024        3
+81     0    0    0     0    0    0    1    1    1    0    0      2024        1
+82     0    0    0     2    0    1    1    1    1    1    0      2024        4
+83     0    2    0     1    1    0    1    1    1    1    1      2024        5
+84     0    1    0     2    1    2    1    1    1    1    1      2024        7
+85     2    1    3     3    3    3    3    3    3    3    2      2024       15
+86     1    0    0     2    1    1    1    1    0    1    0      2024        5
+87     0    1    0     0    1    1    1    0    0    0    1      2024        6
+88     1    0    0     1    0    0    0    0    0    0    0      2024        3
+89     1    1    0     2    2    2    1    2    2    1    0      2025        7
+90     1    2    0     2    2    1    2    2    1    3    0      2025       14
+91     2    1    1     3    3    3    2    1    1    1    3      2025       15
+92     1    2    0     2    3    2    2    2    2    3    1      2025       12
+93     2    3    2     2    2    1    1    1    1    2    1      2025       22
+94     0    0    0     1    1    0    1    1    0    1    0      2025        3
+95     1    1    0     1    1    1    1    1    1    1    0      2025       14
+96     0    0    0     1    1    1    1    0    0    1    0      2025        4
+97     0    1    0     2    2    2    2    1    1    1    1      2025        7
+98     1    1    0     2    0    1    0    2    2    1    0      2025       12
+99     0    0    0     1    1    0    1    0    0    1    0      2025        3
+100    1    0    1     3    1    1    2    2    1    2    0      2025       10
+101    0    2    1     2    2    2    2    2    1    1    0      2025       11
+102    1    1    0     1    2    1    1    1    1    1    1      2025        8
+103    2    1    0     2    1    1    2    2    1    1    2      2025       14
+104    2    1    0     2    3    3    3    3    0    3    3      2025       16
+105    0    1    2     3    2    2    1    2    1    2    0      2025        7
+106    1    1    0     2    1    1    1    1    1    1    0      2025        5
+107    2    0    0     4    2    2    3    3    2    3    2      2025       16
+108    3    3    3     2    3    2    3    1    1    2    2      2025       19
+109    1    1    0     1    2    0    1    3    0    1    2      2025        8
+110    2    2    2     2    2    3    3    2    2    3    2      2025       13
+111    0    1    1     2    1    0    1    2    1    2    1      2025        9
+112    3    3    2     2    3    1    3    3    1    3    0      2025       19
+113    1    2    0     1    1    1    1    1    0    1    0      2025        7
+114    0    1    0     2    0    0    0    0    0    3    0      2025        6
+115    0    1    0     2    1    1    1    2    0    3    0      2025       11
+116    2    2    2     2    1    1    2    1    2    2    1      2025       17
+117    1    1    1     1    2    1    2    2    2    2    1      2025        8
+118    1    2    1     3    1    1    1    1    1    1    1      2025        9
+119    0    0    0     0    0    0    0    0    0    0    0      2025        0
+120    1    3    1     1    1    0    0    0    0    1    0      2025       10
+121    0    1    0     2    1    1    1    0    0    1    0      2025        8
+122    0    0    0     1    0    0    0    0    1    1    0      2025        2
+123    1    0    0     2    3    3    3    3    0    1    0      2025       10
+124    0    1    0     2    2    3    3    3    2    1    0      2025        4
+125    0    1    0     1    1    1    1    1    1    1    0      2025        4
+126    0    1    0     3    1    1    1    0    0    2    1      2025        5
+127    0    1    0     2    1    0    1    1    1    2    0      2025        4
+128    2    0    0     3    2    0    2    1    1    2    2      2025        9
+129    2    1    0     2    2    3    2    1    0    2    1      2025        9
+130    0    1    1     2    1    1    1    1    1    2    1      2025        9
+131    0    0    0     0    0    0    0    0    0    0    0      2025        0
+132    0    0    0     3    1    1    1    1    0    1    0      2025        4
+133    0    1    0     1    1    0    0    0    0    0    0      2025        3
+134    0    0    0     2    1    0    0    0    0    1    1      2025        3
+135    0    0    0     2    0    0    1    1    0    0    0      2025        3
+136    3    2    0     1    0    1    0    2    0    2    1      2025       15
+137    2    2    0     3    1    1    2    3    0    3    2      2025       12
+138    0    1    1     1    1    1    1    1    1    1    1      2025        7
+139    1    0    0     1    0    0    0    0    0    0    0      2025        3
+140    1    1    1     2    1    2    2    1    1    2    1      2025        9
+141    0    0    1     3    0    0    1    3    1    1    0      2025        9
+142    0    1    0     3    1    0    1    0    0    2    0      2025        5
+143    0    0    0     1    1    1    1    1    0    1    1      2025        4
+144    0    0    0     2    1    1    1    1    0    0    0      2025        3
+145    2    1    0     3    2    2    2    2    1    2    1      2025       12
+146    0    0    0     0    1    1    1    0    0    1    1      2025        4
+147    2    0    0     2    2    2    1    2    0    0    0      2025       10
+148    0    1    0     2    1    1    1    1    1    1    0      2025        4
+149    1    1    0     2    1    1    1    1    1    1    0      2025        7
+150    1    1    1     1    1    1    1    1    1    1    1      2025        6
+151    0    1    0     4    1    1    1    2    2    1    0      2025       10
+152    0    0    0     2    0    1    1    0    0    2    1      2025        4
+153    0    0    0     1    0    0    0    0    0    0    0      2025        0
+154    1    1    0     1    3    2    2    3    2    2    2      2025        8
+155    0    0    0     2    1    0    0    0    0    1    0      2025        3
+156    1    1    1     2    1    1    1    1    1    3    1      2025        8
+157    1    0    0     2    1    0    0    0    0    0    0      2025        2
+158    0    0    0     0    0    0    0    0    0    0    0      2025        2
+159    1    2    1     2    1    1    2    1    1    2    0      2025       14
+160    0    2    1     1    1    0    0    1    1    0    0      2025       10
+161    0    0    0     2    0    0    0    0    0    3    0      2025        6
+162    1    1    1     2    1    1    1    1    1    1    1      2025        8
+163    1    1    0     2    2    2    2    2    1    1    1      2025       10
+164    0    0    0     1    1    0    1    0    0    1    0      2025        3
+165    0    0    3     4    0    0    0    0    3    0    0      2025        4
+166    0    1    1     0    1    0    1    0    1    1    0      2025        4
+167    0    0    0     1    0    0    0    0    0    0    0      2025        0
+168    0    2    0     2    1    1    1    2    0    1    1      2025        9
+169    0    0    0     0    0    0    0    0    0    1    0      2025        1
+170    0    1    0     1    0    0    1    1    0    1    0      2025        5
+171    1    3    1     2    1    1    1    0    0    1    0      2025       11
+172    1    1    1     1    1    1    1    1    1    1    0      2025        8
+173    0    0    0     1    1    0    0    0    0    0    0      2025        1
+174    2    2    2     4    2    1    2    2    2    2    2      2025       14
+175    2    2    3     2    3    1    1    1    1    1    1      2025       14
+176    1    2    0     1    1    3    3    2    1    0    1      2025        9
+177    1    1    0     2    1    1    1    1    1    1    0      2025        7
+178    1    1    0     2    1    1    2    1    1    2    0      2025        9
+179    3    1    1     3    2    1    2    3    2    3    2      2025       15
+180    1    2    0     2    1    1    1    1    2    1    1      2025        7
+181    3    2    0     3    3    3    3    3    0    3    3      2025       20
+182    2    2    0     2    1    2    2    2    1    1    1      2025       11
+183    1    2    0     3    3    3    3    3    3    3    1      2025       15
+184    0    1    0     2    1    0    0    0    0    0    1      2025        6
+185    1    1    0     1    2    2    2    2    1    2    2      2025        8
+186    3    2    0     3    3    3    3    3    3    3    3      2025       14
+187    1    2    0     2    1    0    1    1    1    0    1      2025        9
+188    0    1    0     2    0    0    0    0    0    1    0      2025        4
+189    1    2    1     3    2    1    2    2    2    3    1      2025       11
+190    0    2    0     2    2    1    3    2    1    2    1      2025        7
+191    1    1    1     2    3    3    3    2    0    2    1      2025       11
+192    3    3    0     3    3    3    3    3    3    1    3      2025       18
+193    1    0    0     2    1    0    2    1    1    1    0      2025        6
+194    1    1    1     2    2    2    2    2    2    2    2      2025       10
+195    0    1    0     1    2    0    1    0    1    0    1      2025        4
+196    3    3    3     3    3    3    3    3    2    3    3      2025       17
+197    0    1    1     1    1    1    1    1    1    1    1      2025        8
+198    1    2    0     3    3    2    3    2    1    1    1      2025       10
+199    0    0    0     1    1    0    1    1    1    0    0      2025        0
+200    1    1    1     1    2    2    2    1    1    1    0      2025        6
+201    1    1    0     2    2    2    2    2    2    1    2      2025       11
+202    1    1    0     2    2    1    2    2    0    2    0      2025        7
+203    1    1    1     1    1    0    1    1    1    0    0      2025        9
+204    0    1    0     1    1    0    1    2    1    0    0      2025        3
+    burnScore gadScore
+1           2       11
+2           2        1
+3           1        0
+4           2       10
+5           3       17
+6           2        1
+7           1        2
+8           1        2
+9           2        6
+10          1        3
+11          1        1
+12          1        1
+13          2       11
+14          2        3
+15          2        4
+16          2        9
+17          1        0
+18          2        6
+19          1        0
+20          1        3
+21          1        0
+22          1        1
+23          2        6
+24          2        6
+25          0        4
+26          1        2
+27          2       11
+28          1        5
+29          2        0
+30          1        2
+31          3        7
+32          2        6
+33          2        1
+34          2        1
+35          1        1
+36          2        5
+37          2        5
+38          2        7
+39          1        4
+40          3       15
+41          2        8
+42          0        3
+43          1        3
+44          1        0
+45          1        6
+46          1        6
+47          1        5
+48          1        0
+49          1       11
+50          2        0
+51          1        3
+52          2        3
+53          1        1
+54          1        7
+55          1        4
+56          2        5
+57          2        7
+58          1        0
+59          1        5
+60          1        4
+61          2        6
+62          1        4
+63          1        2
+64          1        7
+65          3        8
+66          1        5
+67          1        6
+68          0        2
+69          1        0
+70          3        4
+71          0        0
+72          1        0
+73          1       15
+74          2        2
+75          1        2
+76          1        9
+77          1       12
+78          0        9
+79          2        2
+80          2        2
+81          0        3
+82          2        5
+83          1        6
+84          2        8
+85          3       20
+86          2        5
+87          0        4
+88          1        0
+89          2       10
+90          2       11
+91          3       14
+92          2       15
+93          2        9
+94          1        4
+95          1        6
+96          1        4
+97          2       10
+98          2        6
+99          1        3
+100         3        9
+101         2       10
+102         1        8
+103         2       10
+104         2       18
+105         3       10
+106         2        6
+107         4       17
+108         2       14
+109         1        9
+110         2       17
+111         2        8
+112         2       14
+113         1        5
+114         2        3
+115         2        8
+116         2       10
+117         1       12
+118         3        7
+119         0        0
+120         1        2
+121         2        4
+122         1        2
+123         2       13
+124         2       14
+125         1        6
+126         3        6
+127         2        6
+128         3       10
+129         2       11
+130         2        8
+131         0        0
+132         3        5
+133         1        1
+134         2        3
+135         2        2
+136         1        6
+137         3       12
+138         1        7
+139         1        0
+140         2       10
+141         3        6
+142         3        4
+143         1        6
+144         2        4
+145         3       12
+146         0        5
+147         2        7
+148         2        6
+149         2        6
+150         1        7
+151         4        8
+152         2        5
+153         1        0
+154         1       16
+155         2        2
+156         2        9
+157         2        1
+158         0        0
+159         2        8
+160         1        3
+161         2        3
+162         2        7
+163         2       11
+164         1        3
+165         4        3
+166         0        4
+167         1        0
+168         2        7
+169         0        1
+170         1        3
+171         2        4
+172         1        6
+173         1        1
+174         4       13
+175         2        9
+176         1       11
+177         2        6
+178         2        8
+179         3       15
+180         2        8
+181         3       18
+182         2       10
+183         3       19
+184         2        2
+185         1       13
+186         3       21
+187         2        5
+188         2        1
+189         3       13
+190         2       12
+191         2       14
+192         3       19
+193         2        6
+194         2       14
+195         1        5
+196         3       20
+197         1        7
+198         3       13
+199         1        4
+200         1        9
+201         2       13
+202         2        9
+203         1        4
+204         1        5</code></pre>
+</div>
+</div>
+<p>now we can import our prepared df for analysis, and add a few extra columns</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the data file with everything</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>mhData <span class="ot">&lt;-</span> sumComboDF</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>mhData <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">DENTALYR =</span> <span class="fu">as.factor</span>(DENTALYR),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">yearTaken =</span> <span class="fu">as.factor</span>(yearTaken),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">DENTALYR_NESTED =</span> <span class="fu">interaction</span>(DENTALYR, yearTaken, <span class="at">drop =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co"># make two separate files with only the first and second years</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>secondSampleOnly <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yearTaken <span class="sc">==</span> <span class="dv">2025</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>firstSampleOnly <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yearTaken <span class="sc">==</span> <span class="dv">2024</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co"># _!_!_!_! WE WILL NOT HAVE CONTRAST DATA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To make some graphs, lets declare the size</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>widset<span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>hiset <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>nameMap <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">"D1.2024"</span> <span class="ot">=</span> <span class="st">"D1, </span><span class="sc">\n</span><span class="st"> 2023-2024"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D2.2024"</span> <span class="ot">=</span> <span class="st">"D2, </span><span class="sc">\n</span><span class="st"> 2023-2024"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D3.2024"</span> <span class="ot">=</span> <span class="st">"D3, </span><span class="sc">\n</span><span class="st"> 2023-2024"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D4.2024"</span> <span class="ot">=</span> <span class="st">"D4, </span><span class="sc">\n</span><span class="st"> 2023-2024"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D1.2025"</span> <span class="ot">=</span> <span class="st">"D1, </span><span class="sc">\n</span><span class="st"> 2024-2025"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D2.2025"</span> <span class="ot">=</span> <span class="st">"D2, </span><span class="sc">\n</span><span class="st"> 2024-2025"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D3.2025"</span> <span class="ot">=</span> <span class="st">"D3, </span><span class="sc">\n</span><span class="st"> 2024-2025"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">"D4.2025"</span> <span class="ot">=</span> <span class="st">"D4, </span><span class="sc">\n</span><span class="st"> 2024-2025"</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(mhData<span class="sc">$</span>phqScore))  <span class="co"># check for missing phq9 scores</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(mhData<span class="sc">$</span>burnScore))  <span class="co"># check for missing phq9 scores</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(mhData<span class="sc">$</span>gadScore))  <span class="co"># check for missing phq9 scores</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(mhData<span class="sc">$</span>DENTALYR))  <span class="co"># check for missing dental year values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(mhData<span class="sc">$</span>yearTaken))  <span class="co"># check for missing academic year values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">interaction</span>(mhData<span class="sc">$</span>DENTALYR, mhData<span class="sc">$</span>yearTaken, <span class="at">drop=</span><span class="cn">TRUE</span>))  <span class="co"># Check for NA levels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+D1.2024 D2.2024 D3.2024 D4.2024 D1.2025 D2.2025 D3.2025 D4.2025 
+     25      29      22      12      35      23      32      26 </code></pre>
+</div>
+</div>
+<p>plot phq score</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>phqPlot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>mhData, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">interaction</span>(DENTALYR, yearTaken),<span class="at">y=</span>phqScore, <span class="at">fill=</span><span class="fu">interaction</span>(DENTALYR, yearTaken))) <span class="sc">+</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(mhData<span class="sc">$</span>phqScore, <span class="at">na.rm=</span><span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span><span class="st">"mean"</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span>nameMap) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span>nameMap, <span class="at">name=</span> <span class="st">"Year In Dental School, Academic Year"</span>) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PHQ-9 Score Distribution</span><span class="sc">\n</span><span class="st"> by Year in Dental School and Academic Year"</span>, <span class="at">size=</span><span class="dv">7</span>)<span class="sc">+</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year In Dental School,</span><span class="sc">\n</span><span class="st"> Academic Year"</span>) <span class="sc">+</span> </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"PHQ-9 Score"</span>) <span class="sc">+</span> </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),      <span class="co"># Reduce legend text size</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),     <span class="co"># Reduce legend title size</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>),         <span class="co"># Shrink legend key boxes</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.spacing.y =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>)         <span class="co"># Reduce vertical spacing</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(phqPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="completeMHDentistryDoc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">"phqPlot.png"</span>, <span class="at">plot =</span> phqPlot, <span class="at">width =</span> widset, <span class="at">height =</span> hiset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+</div>
+<p>plot burn score</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>burnPlot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>mhData, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">interaction</span>(DENTALYR, yearTaken),<span class="at">y=</span>burnScore, <span class="at">fill=</span><span class="fu">interaction</span>(DENTALYR, yearTaken))) <span class="sc">+</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(mhData<span class="sc">$</span>burnScore, <span class="at">na.rm=</span><span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span><span class="st">"mean"</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span>nameMap) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span>nameMap, <span class="at">name=</span> <span class="st">"Year In Dental School, Academic Year"</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mini-Z Burnout Score Distribution</span><span class="sc">\n</span><span class="st"> by Year in Dental School and Academic Year"</span>, <span class="at">size=</span><span class="dv">7</span>)<span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year In Dental School,</span><span class="sc">\n</span><span class="st"> Academic Year"</span>) <span class="sc">+</span> </span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Mini-Z Burnout Score"</span>) <span class="sc">+</span> </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),      <span class="co"># Reduce legend text size</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),     <span class="co"># Reduce legend title size</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>),         <span class="co"># Shrink legend key boxes</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.spacing.y =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>)         <span class="co"># Reduce vertical spacing</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(burnPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="completeMHDentistryDoc_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">"burnPlot.png"</span>, <span class="at">plot =</span> burnPlot, <span class="at">width =</span> widset, <span class="at">height =</span> hiset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+</div>
+<p>plot gad score</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>gadPlot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>mhData, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">interaction</span>(DENTALYR, yearTaken),<span class="at">y=</span>gadScore, <span class="at">fill=</span><span class="fu">interaction</span>(DENTALYR, yearTaken))) <span class="sc">+</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(mhData<span class="sc">$</span>gadScore, <span class="at">na.rm=</span><span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span><span class="st">"mean"</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span>nameMap) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span>nameMap, <span class="at">name=</span> <span class="st">"Year In Dental School, Academic Year"</span>) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"GAD-7 Score Distribution</span><span class="sc">\n</span><span class="st"> by Year in Dental School and Academic Year"</span>, <span class="at">size=</span><span class="dv">7</span>)<span class="sc">+</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year In Dental School,</span><span class="sc">\n</span><span class="st"> Academic Year"</span>) <span class="sc">+</span> </span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"GAD-7 Burnout Score"</span>) <span class="sc">+</span> </span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),      <span class="co"># Reduce legend text size</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),     <span class="co"># Reduce legend title size</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>),         <span class="co"># Shrink legend key boxes</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.spacing.y =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>)         <span class="co"># Reduce vertical spacing</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gadPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="completeMHDentistryDoc_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">"gadPlot.png"</span>, <span class="at">plot =</span> gadPlot, <span class="at">width =</span> widset, <span class="at">height =</span> hiset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 8 rows containing missing values or values outside the scale range
+(`geom_segment()`).</code></pre>
+</div>
+</div>
+<p>phq general score across recent year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(secondSampleOnly<span class="sc">$</span>DENTALYR), <span class="dv">2</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[minusThis]</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[minusThis]  ) </span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3  -  1  :  0.00131  ajd:  0.00786 
+3  -  4  :  0.04252  ajd:  0.25512 
+3  -  2  :  0.00257  ajd:  0.01542 
+1  -  4  :  0  ajd:  0 
+1  -  2  :  0.42631  ajd:  2.55786 
+4  -  2  :  0  ajd:  0 </code></pre>
+</div>
+</div>
+<p>gad score across most recent year</p>
+<p>phq score, general, across years [1-6]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(phqScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>phqScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>mhData, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mhData)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5.400000  4.310345  3.363636  5.250000 10.085714 10.304348  7.125000
+[8]  5.230769</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>phq score, pairwise, across years [1-5]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(<span class="fu">as.character</span>(mhData<span class="sc">$</span>DENTALYR_NESTED)), <span class="dv">2</span>)  </span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="sc">!</span><span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) <span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">"D4.2024|D2.2024|D4.2025|D2.2025"</span>, col)))]</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) {</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">substr</span>(col[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">==</span> <span class="fu">substr</span>(col[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">2</span>)  </span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>})]</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>combList</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]      [,2]     
+[1,] "D3.2024" "D1.2024"
+[2,] "D3.2025" "D1.2025"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[minusThis] <span class="co">#!!!</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[minusThis]  ) <span class="co">#!!!</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>D3.2024  -  D3.2025  :  0.00128  ajd:  0.00256 
+D1.2024  -  D1.2025  :  4e-05  ajd:  8e-05 </code></pre>
+</div>
+</div>
+<p>burnscore, general, across years [1-4]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(burnScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>burnScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>mhData, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mhData)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.280000 1.448276 1.454545 1.583333 1.885714 2.173913 1.687500 1.692308</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01293</code></pre>
+</div>
+</div>
+<p>burnscore, pairwise, across years [1-3]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(<span class="fu">as.character</span>(mhData<span class="sc">$</span>DENTALYR_NESTED)), <span class="dv">2</span>)  </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="sc">!</span><span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) <span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">"D4.2024|D2.2024|D4.2025|D2.2025"</span>, col)))]</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) {</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">substr</span>(col[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">==</span> <span class="fu">substr</span>(col[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">2</span>)  </span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>})]</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>combList</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]      [,2]     
+[1,] "D3.2024" "D1.2024"
+[2,] "D3.2025" "D1.2025"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(burnScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(burnScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[minusThis] <span class="co">#!!!</span></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(burnScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(burnScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[minusThis]  ) <span class="co">#!!!</span></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>D3.2024  -  D3.2025  :  0.14558  ajd:  0.29116 
+D1.2024  -  D1.2025  :  0.00176  ajd:  0.00352 </code></pre>
+</div>
+</div>
+<p>gadscore, general, across years [1-2]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> mhData <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(gadScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>gadScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR_NESTED) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-30"><a href="#cb73-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>mhData, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mhData)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb73-31"><a href="#cb73-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb73-32"><a href="#cb73-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-33"><a href="#cb73-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-34"><a href="#cb73-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb73-35"><a href="#cb73-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb73-36"><a href="#cb73-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-37"><a href="#cb73-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4.800000  4.103448  3.772727  7.250000  8.971429 11.434783  6.750000
+[8]  4.461538</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>gadscore, pairwise, across years [1-1]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(<span class="fu">as.character</span>(mhData<span class="sc">$</span>DENTALYR_NESTED)), <span class="dv">2</span>)  </span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="sc">!</span><span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) <span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">"D4.2024|D2.2024|D4.2025|D2.2025"</span>, col)))]</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> combList[, <span class="fu">apply</span>(combList, <span class="dv">2</span>, <span class="cf">function</span>(col) {</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">substr</span>(col[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">==</span> <span class="fu">substr</span>(col[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">2</span>)  </span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>})]</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>combList</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]      [,2]     
+[1,] "D3.2024" "D1.2024"
+[2,] "D3.2025" "D1.2025"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(gadScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(gadScore<span class="sc">~</span>DENTALYR_NESTED, <span class="at">data=</span>mhData)[minusThis] <span class="co">#!!!</span></span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(gadScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[this]<span class="sc">-</span><span class="fu">mean</span>(gadScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR_NESTED), <span class="at">data=</span>mhData)[minusThis]  ) <span class="co">#!!!</span></span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>D3.2024  -  D3.2025  :  0.00968  ajd:  0.01936 
+D1.2024  -  D1.2025  :  0.00021  ajd:  0.00042 </code></pre>
+</div>
+</div>
+<p>phq score, general, most recent year [6]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> secondSampleOnly <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(phqScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb81-12"><a href="#cb81-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-13"><a href="#cb81-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-14"><a href="#cb81-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb81-15"><a href="#cb81-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-16"><a href="#cb81-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb81-17"><a href="#cb81-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb81-18"><a href="#cb81-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>phqScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb81-19"><a href="#cb81-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb81-20"><a href="#cb81-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb81-21"><a href="#cb81-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb81-22"><a href="#cb81-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb81-23"><a href="#cb81-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb81-24"><a href="#cb81-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb81-25"><a href="#cb81-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb81-26"><a href="#cb81-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb81-27"><a href="#cb81-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb81-28"><a href="#cb81-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-29"><a href="#cb81-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-30"><a href="#cb81-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>secondSampleOnly, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(secondSampleOnly)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb81-31"><a href="#cb81-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb81-32"><a href="#cb81-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-33"><a href="#cb81-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-34"><a href="#cb81-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb81-35"><a href="#cb81-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb81-36"><a href="#cb81-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-37"><a href="#cb81-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.085714 10.304348  7.125000  5.230769</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7e-05</code></pre>
+</div>
+</div>
+<p>phq score, pair, most recent year [5]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(secondSampleOnly<span class="sc">$</span>DENTALYR), <span class="dv">2</span>)</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[minusThis]</span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(phqScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[minusThis]  ) </span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb85-19"><a href="#cb85-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3  -  1  :  0.00131  ajd:  0.00786 
+3  -  4  :  0.04252  ajd:  0.25512 
+3  -  2  :  0.00257  ajd:  0.01542 
+1  -  4  :  0  ajd:  0 
+1  -  2  :  0.42631  ajd:  2.55786 
+4  -  2  :  0  ajd:  0 </code></pre>
+</div>
+</div>
+<p>burn score, general, most recent year [4]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> secondSampleOnly <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(burnScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-14"><a href="#cb87-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-16"><a href="#cb87-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb87-17"><a href="#cb87-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb87-18"><a href="#cb87-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>burnScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb87-19"><a href="#cb87-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb87-20"><a href="#cb87-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb87-21"><a href="#cb87-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb87-22"><a href="#cb87-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-23"><a href="#cb87-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb87-24"><a href="#cb87-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb87-25"><a href="#cb87-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb87-26"><a href="#cb87-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb87-27"><a href="#cb87-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb87-28"><a href="#cb87-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb87-29"><a href="#cb87-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-30"><a href="#cb87-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>secondSampleOnly, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(secondSampleOnly)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb87-31"><a href="#cb87-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb87-32"><a href="#cb87-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-33"><a href="#cb87-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-34"><a href="#cb87-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb87-35"><a href="#cb87-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb87-36"><a href="#cb87-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-37"><a href="#cb87-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.885714 2.173913 1.687500 1.692308</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.14034</code></pre>
+</div>
+</div>
+<p>burn score, pair, most recent year [3]</p>
+<p>-null</p>
+<p>gad score, general, most recent year [2]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>gpMeans <span class="ot">&lt;-</span> secondSampleOnly <span class="sc">%&gt;%</span> <span class="co">#DDDDD1 1</span></span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#__1 1___ </span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(gadScore)) <span class="sc">%&gt;%</span> <span class="co">#!!!!!!! 1 1</span></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(meanTS)</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>pairmean <span class="ot">&lt;-</span> <span class="cf">function</span>(gpMeans){</span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>  pairwiseDiff <span class="ot">&lt;-</span> <span class="fu">combn</span>(gpMeans, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">abs</span>(x[<span class="dv">1</span>] <span class="sc">-</span> x[<span class="dv">2</span>]))</span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(pairwiseDiff))</span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>obsStat <span class="ot">&lt;-</span> <span class="fu">pairmean</span>(gpMeans)</span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>meanDifStat <span class="ot">&lt;-</span> <span class="cf">function</span>(data,indices){</span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>  bootData <span class="ot">&lt;-</span> data</span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>  bootData<span class="sc">$</span>valOfInterest <span class="ot">&lt;-</span> <span class="fu">sample</span>(data<span class="sc">$</span>gadScore) <span class="co">#!!!!!!! 1 2</span></span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>  bootMeans <span class="ot">&lt;-</span> bootData <span class="sc">%&gt;%</span></span>
+<span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(DENTALYR) <span class="sc">%&gt;%</span> <span class="co">#____1 2___</span></span>
+<span id="cb91-22"><a href="#cb91-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanTS =</span> <span class="fu">mean</span>(valOfInterest)) <span class="sc">%&gt;%</span> </span>
+<span id="cb91-23"><a href="#cb91-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(meanTS)</span>
+<span id="cb91-24"><a href="#cb91-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb91-25"><a href="#cb91-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bootMeans)<span class="sc">&lt;</span><span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb91-26"><a href="#cb91-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb91-27"><a href="#cb91-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pairmean</span>(bootMeans))</span>
+<span id="cb91-28"><a href="#cb91-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb91-29"><a href="#cb91-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-30"><a href="#cb91-30" aria-hidden="true" tabindex="-1"></a>nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span><span class="fu">meanDifStat</span>(<span class="at">data=</span>secondSampleOnly, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(secondSampleOnly)) <span class="co">#DDDDD2 2</span></span>
+<span id="cb91-31"><a href="#cb91-31" aria-hidden="true" tabindex="-1"></a><span class="co">#nullSet</span></span>
+<span id="cb91-32"><a href="#cb91-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-33"><a href="#cb91-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-34"><a href="#cb91-34" aria-hidden="true" tabindex="-1"></a><span class="co">#bootGo$t</span></span>
+<span id="cb91-35"><a href="#cb91-35" aria-hidden="true" tabindex="-1"></a>bootP <span class="ot">&lt;-</span> <span class="fu">mean</span>(nullSet <span class="sc">&gt;=</span> obsStat) <span class="co">#not a boot but yeah</span></span>
+<span id="cb91-36"><a href="#cb91-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-37"><a href="#cb91-37" aria-hidden="true" tabindex="-1"></a>gpMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8.971429 11.434783  6.750000  4.461538</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>bootP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>gad score, pair, most recent year [1]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(reSeed)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>combList <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">unique</span>(secondSampleOnly<span class="sc">$</span>DENTALYR), <span class="dv">2</span>)</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(combList)){</span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>  this<span class="ot">&lt;-</span>combList[,x][<span class="dv">1</span>]</span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>  minusThis<span class="ot">&lt;-</span>combList[,x][<span class="dv">2</span>]</span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(this)</span></span>
+<span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#print(minusThis)</span></span>
+<span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb95-10"><a href="#cb95-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-11"><a href="#cb95-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb95-12"><a href="#cb95-12" aria-hidden="true" tabindex="-1"></a>  meanDiffer <span class="ot">&lt;-</span> <span class="fu">mean</span>(gadScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(gadScore<span class="sc">~</span>DENTALYR, <span class="at">data=</span>secondSampleOnly)[minusThis] <span class="co">#!!!</span></span>
+<span id="cb95-13"><a href="#cb95-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb95-14"><a href="#cb95-14" aria-hidden="true" tabindex="-1"></a>  nullSet <span class="ot">&lt;-</span> <span class="fu">do</span>(repCtMos)<span class="sc">*</span>( <span class="fu">mean</span>(gadScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[this]<span class="sc">-</span><span class="fu">mean</span>(gadScore<span class="sc">~</span><span class="fu">shuffle</span>(DENTALYR), <span class="at">data=</span>secondSampleOnly)[minusThis]  ) <span class="co">#!!!</span></span>
+<span id="cb95-15"><a href="#cb95-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb95-16"><a href="#cb95-16" aria-hidden="true" tabindex="-1"></a>  pValMos <span class="ot">&lt;-</span> <span class="fu">prop</span>(<span class="sc">~</span>( nullSet<span class="sc">&gt;=</span><span class="fu">abs</span>(meanDiffer)), <span class="at">data=</span>nullSet)</span>
+<span id="cb95-17"><a href="#cb95-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb95-18"><a href="#cb95-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(this, <span class="st">" - "</span>, minusThis, <span class="st">" : "</span>, pValMos,<span class="st">" ajd: "</span>,pValMos<span class="sc">*</span><span class="fu">ncol</span>(combList), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb95-19"><a href="#cb95-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3  -  1  :  0.0151  ajd:  0.0906 
+3  -  4  :  0.02249  ajd:  0.13494 
+3  -  2  :  6e-05  ajd:  0.00036 
+1  -  4  :  0  ajd:  0 
+1  -  2  :  0.01682  ajd:  0.10092 
+4  -  2  :  0  ajd:  0 </code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
